@@ -2,12 +2,12 @@
 <html lang="vi">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <link rel="shortcut icon" type="image/png" href="./birthdayCake.png"/>
-        <title>Happy Birthday</title>
-        <link rel="stylesheet" href="./style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="shortcut icon" type="image/png" href="./birthdayCake.png" />
+        <title>Happy Birthday - Vũ Bảo Nhi</title>
+        <link rel="stylesheet" href="./style.css" />
         <link href="https://fonts.googleapis.com/css?family=Wendy+One" rel="stylesheet" type="text/css" />
-        
+
         <style>
             html, body {
                 margin: 0 !important;
@@ -23,45 +23,59 @@
                 position: relative !important;
                 margin: 0 !important;
                 padding: 0 0 30px 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
                 box-sizing: border-box !important;
                 overflow: hidden !important;
             }
 
-            /* Khung bóng bay sẽ được JS tự động đo và căn giữa tuyệt đối */
-            .balloon {
-                position: absolute !important;
-                top: 20px !important;
-                left: 0 !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                transform-origin: top left !important;
+            /* Khung bọc ngoài giúp thu phóng bóng bay chuẩn trên mọi màn hình */
+            #balloon-scale-wrapper {
+                width: 100% !important;
+                position: relative !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: flex-start !important;
+                margin-top: 15px !important;
                 z-index: 5;
             }
 
-            /* Khung chứa ảnh và tên luôn nằm chính giữa màn hình */
+            .balloon {
+                width: 800px !important;
+                height: 280px !important;
+                position: relative !important;
+                top: 0 !important;
+                left: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                transform-origin: top center !important;
+                flex-shrink: 0 !important;
+            }
+
             .avatar {
                 position: relative !important;
                 top: auto !important;
                 left: auto !important;
                 transform: none !important;
-                margin: 0 auto !important;
+                margin: 15px auto 0 auto !important;
+                padding: 0 !important;
                 text-align: center !important;
                 width: 100% !important;
                 z-index: 20 !important;
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
-                justify-content: center !important;
             }
 
-            /* Kích thước ảnh tự co giãn mượt theo độ rộng màn hình (clamp) */
             .avatar__img {
                 position: relative !important;
                 top: auto !important;
                 left: auto !important;
                 transform: none !important;
-                width: clamp(135px, 38vw, 190px) !important;
-                height: clamp(135px, 38vw, 190px) !important;
+                width: clamp(140px, 38vw, 190px) !important;
+                height: clamp(140px, 38vw, 190px) !important;
                 object-fit: cover !important;
                 border-radius: 50% !important;
                 border: 4px solid #ff6b81 !important;
@@ -71,23 +85,21 @@
                 display: block !important;
             }
 
-            /* Cỡ chữ tên tự co giãn theo màn hình và nằm ngay sát dưới ảnh */
             .avatar__title, h1.avatar__title {
                 position: relative !important;
                 top: auto !important;
                 left: auto !important;
                 transform: none !important;
-                margin: 16px 0 0 0 !important;
-                padding: 0 10px !important;
-                font-size: clamp(26px, 7vw, 42px) !important;
-                line-height: 1.2 !important;
+                margin: 18px 0 0 0 !important;
+                padding: 0 12px !important;
+                font-size: clamp(28px, 7.5vw, 42px) !important;
+                line-height: 1.25 !important;
                 cursor: pointer;
                 text-align: center !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
             }
 
-            /* Tối ưu khung thông báo (SweetAlert) trên màn hình điện thoại nhỏ */
             .swal-modal {
                 width: 88% !important;
                 max-width: 400px !important;
@@ -106,43 +118,45 @@
             <div class="before"></div>
             <div class="after"></div>
             <div class="container">
-                <!-- 2. Dòng chữ Happy Birthday -->
-                <div class="balloon" id="balloon-box">
-                    <div><span>H</span></div>
-                    <div><span>A</span></div>
-                    <div><span>P</span></div>
-                    <div><span>P</span></div>
-                    <div><span>Y</span></div>
-                    <div><span>B</span></div>
-                    <div><span>I</span></div>
-                    <div><span>R</span></div>
-                    <div><span>T</span></div>
-                    <div><span>H</span></div>
-                    <div><span>D</span></div>
-                    <div><span>A</span></div>
-                    <div><span>Y</span></div>
+                <div id="balloon-scale-wrapper">
+                    <div class="balloon" id="balloon-box">
+                        <div><span>H</span></div>
+                        <div><span>A</span></div>
+                        <div><span>P</span></div>
+                        <div><span>P</span></div>
+                        <div><span>Y</span></div>
+                        <div><span>B</span></div>
+                        <div><span>I</span></div>
+                        <div><span>R</span></div>
+                        <div><span>T</span></div>
+                        <div><span>H</span></div>
+                        <div><span>D</span></div>
+                        <div><span>A</span></div>
+                        <div><span>Y</span></div>
+                    </div>
                 </div>
-                
-                <div class="avatar" id="avatar-box">
-                    <!-- 3. DÁN LINK ẢNH CỦA BẠN VÀO src="" DƯỚI ĐÂY -->
-                    <img src="https://i.ibb.co/4c86v9t/IMG-1792043435632-1793205902395.jpg " alt="Avatar" class="avatar__img" onclick="showMessage()" />
-                    
-                    <!-- 4. Tên của người đó -->
+
+                <div class="avatar">
+                    <img src="./MyAvatar.jpg" alt="Vũ Bảo Nhi" class="avatar__img" onclick="showMessage()" />
                     <h1 onclick="showMessage()" class="avatar__title">Vũ Bảo Nhi</h1>
                 </div>
             </div>
         </div>
 
+        <!-- Trình phát nhạc (chỉ nằm ở trang này để phát ngay sau khi đếm xong 5-4-3-2-1) -->
+        <audio id="bg-music" preload="auto" loop>
+            <source src="./ct.mp3" type="audio/mpeg" />
+            <source src="./music.mp3" type="audio/mpeg" />
+        </audio>
+
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
-            // Hàm tự động đo tọa độ chùm bóng bay và căn giữa chuẩn 100% trên mọi thiết bị
-            function fitAllDevices() {
-                var balloon = document.getElementById('balloon-box');
-                var avatar = document.getElementById('avatar-box');
-                if (!balloon || !avatar) return;
+            // 1. Tự động căn chỉnh bố cục trên mọi thiết bị
+            function optimizeLayout() {
+                var wrapper = document.getElementById("balloon-scale-wrapper");
+                var balloon = document.getElementById("balloon-box");
+                if (!wrapper || !balloon) return;
 
-                // Reset tạm thời để đo vị trí gốc của các quả bóng trong style.css
-                balloon.style.transform = 'none';
                 var items = balloon.children;
                 var minX = Infinity, maxX = -Infinity, maxY = -Infinity;
 
@@ -162,32 +176,55 @@
                 var screenW = window.innerWidth;
                 var screenH = window.innerHeight;
 
-                // Tính tỷ lệ thu phóng sao cho chùm bóng chiếm tối đa 92% chiều ngang màn hình
-                var scale = (screenW * 0.92) / realWidth;
-                if (scale > 1) scale = 1; // Không phóng to quá kích thước gốc trên PC
+                balloon.style.width = (maxX + minX) + "px";
 
-                // Nếu xoay ngang điện thoại (chiều cao thấp), thu nhỏ thêm để vừa cả ảnh
+                var scale = (screenW * 0.94) / realWidth;
+                if (scale > 1) scale = 1;
+
                 if (screenH < 500) {
                     scale = Math.min(scale, (screenH * 0.42) / realHeight);
                 }
 
-                // Tính vị trí X để tâm của chùm bóng nằm đúng chính giữa màn hình
-                var targetLeft = (screenW - realWidth * scale) / 2 - (minX * scale);
-                var topOffset = screenH < 500 ? 10 : 25;
-
-                balloon.style.top = topOffset + 'px';
-                balloon.style.transform = 'translateX(' + targetLeft + 'px) scale(' + scale + ')';
-
-                // Tự động đẩy khung Avatar xuống ngay dưới chùm bóng bay + khoảng cách 35px
-                var avatarTop = topOffset + (realHeight * scale) + (screenH < 500 ? 15 : 35);
-                avatar.style.paddingTop = avatarTop + 'px';
+                var offsetX = ((800 - (maxX + minX)) / 2) * scale;
+                balloon.style.transform = "translateX(" + offsetX + "px) scale(" + scale + ")";
+                wrapper.style.height = (realHeight * scale + 20) + "px";
             }
 
-            window.addEventListener('DOMContentLoaded', fitAllDevices);
-            window.addEventListener('load', fitAllDevices);
-            window.addEventListener('resize', fitAllDevices);
+            window.addEventListener("DOMContentLoaded", optimizeLayout);
+            window.addEventListener("load", optimizeLayout);
+            window.addEventListener("resize", optimizeLayout);
 
+            // 2. Phát nhạc ngay khi chuyển từ màn đếm ngược 5-4-3-2-1 sang
+            function startMusic() {
+                var music = document.getElementById("bg-music");
+                if (!music) return;
+                music.volume = 1.0;
+
+                var playPromise = music.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(function () {
+                        // Nếu trình duyệt điện thoại chặn tự phát khi chuyển trang,
+                        // phát ngay lập tức khi người dùng chạm bất kỳ đâu lên màn hình
+                        var unlockAudio = function () {
+                            music.play();
+                            document.removeEventListener("click", unlockAudio);
+                            document.removeEventListener("touchstart", unlockAudio);
+                        };
+                        document.addEventListener("click", unlockAudio, { once: true });
+                        document.addEventListener("touchstart", unlockAudio, { once: true });
+                    });
+                }
+            }
+
+            window.addEventListener("DOMContentLoaded", startMusic);
+            window.addEventListener("load", startMusic);
+
+            // 3. Hiển thị lời chúc (đồng thời đảm bảo nhạc phát nếu chưa kêu)
             function showMessage() {
+                var music = document.getElementById("bg-music");
+                if (music && music.paused) {
+                    music.play();
+                }
                 swal({
                     title: "Lời nhắn",
                     text: "Chúc bạn tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
@@ -196,23 +233,6 @@
                     },
                 });
             }
-        </script>
-
-        <!-- Trình phát file nhạc tự động chạy và lặp lại -->
-        <audio id="bg-music" autoplay loop>
-            <source src="ct.mp3" type="audio/mpeg">
-            Trình duyệt của bạn không hỗ trợ thẻ audio.
-        </audio>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var music = document.getElementById("bg-music");
-                music.play().catch(function() {
-                    document.body.addEventListener("click", function() {
-                        music.play();
-                    }, { once: true });
-                });
-            });
         </script>
     </body>
 </html>
