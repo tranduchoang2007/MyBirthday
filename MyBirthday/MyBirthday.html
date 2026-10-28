@@ -53,7 +53,140 @@
                 line-height: 1;
             }
 
-            /* ================= 2. DÒNG CHỮ CHẠY "Đợi xíu nhé :>>>>" ================= */
+            /* ================= 2. HỘP QUÀ MÀU HỒNG TO ẨN HẾT MỌI THỨ ================= */
+            #gift-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: linear-gradient(135deg, #374566, #010203);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 99999999;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.8s ease, visibility 0.8s;
+            }
+
+            #gift-overlay.show-gift {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            #gift-overlay.hide-gift {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+
+            .gift-box-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                cursor: pointer;
+                animation: bounceGift 2s ease-in-out infinite;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .gift-box {
+                position: relative;
+                width: 180px;
+                height: 160px;
+                background: linear-gradient(135deg, #ff4d6d, #ff758f);
+                border-radius: 12px;
+                box-shadow: 0 15px 35px rgba(255, 77, 109, 0.7), 0 0 25px rgba(255, 182, 193, 0.5);
+            }
+
+            /* Nắp hộp quà */
+            .gift-lid {
+                position: absolute;
+                top: -20px;
+                left: -10px;
+                width: 200px;
+                height: 35px;
+                background: linear-gradient(135deg, #ff3355, #ff4d6d);
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+
+            /* Dải ruy băng dọc */
+            .gift-ribbon-vertical {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 35px;
+                height: 100%;
+                background: #ffb703;
+                box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
+            }
+
+            /* Dải ruy băng ngang */
+            .gift-ribbon-horizontal {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+                width: 100%;
+                height: 35px;
+                background: #ffb703;
+                box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
+            }
+
+            /* Nơ ở đỉnh hộp quà */
+            .gift-bow {
+                position: absolute;
+                top: -55px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 70px;
+                height: 40px;
+            }
+
+            .gift-bow::before, .gift-bow::after {
+                content: "";
+                position: absolute;
+                width: 35px;
+                height: 30px;
+                border: 6px solid #ffb703;
+                border-radius: 50% 50% 0 50%;
+                top: 0;
+            }
+
+            .gift-bow::before {
+                left: -2px;
+                transform: rotate(-30deg);
+            }
+
+            .gift-bow::after {
+                right: -2px;
+                transform: rotate(30deg) scaleX(-1);
+            }
+
+            .gift-title {
+                margin-top: 35px;
+                color: white;
+                font-family: 'Lobster', cursive;
+                font-size: 36px;
+                text-shadow: 0 3px 10px rgba(255, 77, 109, 0.8);
+                letter-spacing: 1px;
+                animation: pulseText 1.5s infinite;
+            }
+
+            @keyframes bounceGift {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-12px); }
+            }
+
+            @keyframes pulseText {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.06); }
+            }
+
+            /* ================= 3. DÒNG CHỮ CHẠY "Đợi xíu nhé :>>>>" ================= */
             #marquee-container {
                 position: relative;
                 width: 100%;
@@ -61,7 +194,7 @@
                 overflow: hidden;
                 height: 40px;
                 z-index: 25;
-                display: none; /* Chỉ hiện khi đang phát ct.mp3 */
+                display: none;
             }
 
             .marquee-text {
@@ -79,7 +212,7 @@
                 100% { transform: translateX(-100%); }
             }
 
-            /* ================= 3. GIAO DIỆN CHÍNH (CHUẨN MỌI THIẾT BỊ) ================= */
+            /* ================= 4. GIAO DIỆN CHÍNH (CHUẨN MỌI THIẾT BỊ) ================= */
             .container {
                 width: 100% !important;
                 min-height: 100vh !important;
@@ -88,6 +221,12 @@
                 padding: 0 0 40px 0 !important;
                 box-sizing: border-box !important;
                 overflow: hidden !important;
+                opacity: 0;
+                transition: opacity 1s ease; /* Hiệu ứng dần hiện ra */
+            }
+
+            .container.show-main {
+                opacity: 1;
             }
 
             .balloon {
@@ -148,7 +287,7 @@
                 text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
             }
 
-            /* ================= 4. BỨC THƯ MÀU HỒNG (ẨN LÚC ĐẦU, CHỈ HIỆN SAU KHI XONG CT.MP3) ================= */
+            /* ================= 5. BỨC THƯ MÀU HỒNG (HIỆN SAU KHI HẾT CT.MP3) ================= */
             .love-letter-wrapper {
                 margin-top: 15px;
                 display: flex;
@@ -299,7 +438,7 @@
                 50% { transform: translateY(-8px); }
             }
 
-            /* ================= 5. LÀM ĐẸP BẢNG LỜI CHÚC ================= */
+            /* ================= 6. LÀM ĐẸP BẢNG LỜI CHÚC ================= */
             .swal-modal {
                 width: 88% !important;
                 max-width: 420px !important;
@@ -336,11 +475,24 @@
             <div id="intro-digit">5</div>
         </div>
 
-        <!-- 2. Giao diện chúc mừng sinh nhật -->
+        <!-- 2. Hộp quà màu hồng to ẩn hết mọi thứ -->
+        <div id="gift-overlay">
+            <div class="gift-box-container" onclick="openGiftBox()">
+                <div class="gift-bow"></div>
+                <div class="gift-box">
+                    <div class="gift-lid"></div>
+                    <div class="gift-ribbon-vertical"></div>
+                    <div class="gift-ribbon-horizontal"></div>
+                </div>
+                <div class="gift-title">🎁 Mở quà 💝</div>
+            </div>
+        </div>
+
+        <!-- 3. Giao diện chính chúc mừng sinh nhật -->
         <div class="pyro">
             <div class="before"></div>
             <div class="after"></div>
-            <div class="container">
+            <div class="container" id="main-container">
                 <div class="balloon" id="balloon-box">
                     <div><span>H</span></div>
                     <div><span>A</span></div>
@@ -390,7 +542,7 @@
             </div>
         </div>
 
-        <!-- 3. Âm thanh -->
+        <!-- 4. Âm thanh -->
         <audio id="audio-ct" src="./ct.mp3" preload="auto"></audio>
         <audio id="audio-music" src="./music.mp3" preload="auto" loop></audio>
 
@@ -434,8 +586,8 @@
             var audioCt = document.getElementById("audio-ct");
             var audioMusic = document.getElementById("audio-music");
 
-            // Kỹ thuật ép trình duyệt mở khóa âm thanh ngầm để tự phát ngay khi đếm ngược xong
-            function unlockAudioEngine() {
+            // Mở khóa âm thanh ngầm ngay khi web tải
+            document.addEventListener("DOMContentLoaded", function() {
                 [audioCt, audioMusic].forEach(function(aud) {
                     aud.muted = true;
                     aud.play().then(function() {
@@ -444,9 +596,9 @@
                         aud.muted = false;
                     }).catch(function(){});
                 });
-            }
+            });
 
-            // Khi bài ct.mp3 phát xong 1 lần -> Ẩn chữ chạy -> Đợi 1 giây -> Phát music.mp3 -> Hiện bức thư
+            // Khi ct.mp3 phát xong 1 lần -> Ẩn chữ chạy -> Đợi 1 giây -> Phát music.mp3 -> Hiện bức thư
             audioCt.addEventListener("ended", function() {
                 var marquee = document.getElementById("marquee-container");
                 if (marquee) marquee.style.display = "none";
@@ -466,12 +618,8 @@
             document.addEventListener("DOMContentLoaded", function() {
                 var introScreen = document.getElementById("intro-screen");
                 var digitEl = document.getElementById("intro-digit");
+                var giftOverlay = document.getElementById("gift-overlay");
                 var count = 5;
-
-                // Mở khóa âm thanh ngầm ngay khi web vừa tải hoặc khi có bất kỳ cú chạm nào đầu tiên
-                unlockAudioEngine();
-                document.addEventListener("click", unlockAudioEngine, { once: true });
-                document.addEventListener("touchstart", unlockAudioEngine, { once: true });
 
                 var timer = setInterval(function() {
                     count--;
@@ -481,27 +629,39 @@
                         clearInterval(timer);
                         digitEl.innerText = "0";
                         introScreen.classList.add("hidden"); // Tắt màn hình đếm ngược
-
-                        // Hiển thị dòng chữ chạy "Đợi xíu nhé :>>>>"
-                        var marquee = document.getElementById("marquee-container");
-                        if (marquee) marquee.style.display = "block";
-
-                        // Tự động phát ct.mp3 ngay lập tức không cần chạm màn hình
-                        audioCt.muted = false;
-                        audioCt.currentTime = 0;
-                        audioCt.play().catch(function() {
-                            // Phòng hờ nếu trình duyệt chặn hoàn toàn, tự phát ở cú chạm màn hình đầu tiên
-                            var forcePlay = function() {
-                                audioCt.play();
-                                document.removeEventListener("click", forcePlay);
-                                document.removeEventListener("touchstart", forcePlay);
-                            };
-                            document.addEventListener("click", forcePlay);
-                            document.addEventListener("touchstart", forcePlay);
-                        });
+                        giftOverlay.classList.add("show-gift"); // Hiện hộp quà to màu hồng
                     }
                 }, 1000);
             });
+
+            // Khi người dùng bấm vào hộp quà "Mở quà"
+            function openGiftBox() {
+                var giftOverlay = document.getElementById("gift-overlay");
+                var mainContainer = document.getElementById("main-container");
+                var marquee = document.getElementById("marquee-container");
+
+                // Ẩn hộp quà đi
+                giftOverlay.classList.add("hide-gift");
+
+                // Dần hiện ra bản chính (giao diện sinh nhật)
+                mainContainer.classList.add("show-main");
+
+                // Hiển thị dòng chữ chạy "Đợi xíu nhé :>>>>"
+                if (marquee) marquee.style.display = "block";
+
+                // Phát bài nhạc ct.mp3 đúng 1 lần duy nhất
+                audioCt.muted = false;
+                audioCt.currentTime = 0;
+                audioCt.play().catch(function() {
+                    var forcePlay = function() {
+                        audioCt.play();
+                        document.removeEventListener("click", forcePlay);
+                        document.removeEventListener("touchstart", forcePlay);
+                    };
+                    document.addEventListener("click", forcePlay);
+                    document.addEventListener("touchstart", forcePlay);
+                });
+            }
 
             // ================= MỞ THƯ TÌNH YÊU =================
             function openLoveLetter() {
