@@ -2,10 +2,118 @@
 <html lang="vi">
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link rel="shortcut icon" type="image/png" href="./birthdayCake.png"/>
         <title>Happy Birthday</title>
         <link rel="stylesheet" href="./style.css">
         <link href="https://fonts.googleapis.com/css?family=Wendy+One" rel="stylesheet" type="text/css" />
+        
+        <!-- CSS Responsive giúp hiển thị chuẩn trên mọi thiết bị (Điện thoại, Tablet, PC) -->
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+                overflow-x: hidden;
+            }
+
+            .container {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
+                min-height: 100vh !important;
+                width: 100% !important;
+                position: relative !important;
+                padding-top: 20px !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Cố định khung chuẩn của bóng bay để không bị vỡ hàng */
+            .balloon {
+                width: 780px !important;
+                height: 260px !important;
+                position: relative !important;
+                margin: 0 auto !important;
+                left: auto !important;
+                top: auto !important;
+                transform-origin: top center !important;
+                z-index: 5;
+            }
+
+            /* Khung ảnh và tên nằm tách biệt hoàn toàn bên dưới bóng bay */
+            .avatar {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                transform: none !important;
+                margin-top: 40px !important;
+                text-align: center !important;
+                z-index: 20 !important;
+                width: 100% !important;
+            }
+
+            .avatar__img {
+                width: 180px !important;
+                height: 180px !important;
+                object-fit: cover !important;
+                border-radius: 50% !important;
+                border: 4px solid #ff6b81 !important;
+                box-shadow: 0 0 25px rgba(255, 107, 129, 0.8) !important;
+                cursor: pointer;
+                display: block !important;
+                margin: 0 auto !important;
+            }
+
+            .avatar__title {
+                margin-top: 18px !important;
+                font-size: 32px !important;
+                cursor: pointer;
+                text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7) !important;
+            }
+
+            /* Tự động thu phóng trên màn hình Tablet / Điện thoại lớn */
+            @media screen and (max-width: 800px) {
+                .balloon {
+                    transform: scale(0.65) !important;
+                    margin-bottom: -70px !important;
+                }
+            }
+
+            /* Tự động thu phóng trên màn hình Điện thoại thông thường */
+            @media screen and (max-width: 500px) {
+                .container {
+                    padding-top: 35px !important;
+                }
+                .balloon {
+                    transform: scale(0.46) !important;
+                    margin-bottom: -110px !important;
+                }
+                .avatar {
+                    margin-top: 25px !important;
+                }
+                .avatar__img {
+                    width: 155px !important;
+                    height: 155px !important;
+                }
+                .avatar__title {
+                    font-size: 28px !important;
+                }
+            }
+
+            /* Điện thoại màn hình nhỏ */
+            @media screen and (max-width: 375px) {
+                .balloon {
+                    transform: scale(0.4) !important;
+                    margin-bottom: -130px !important;
+                }
+                .avatar__img {
+                    width: 135px !important;
+                    height: 135px !important;
+                }
+            }
+        </style>
     </head>
 
     <body>
@@ -29,31 +137,30 @@
                     <div><span>A</span></div>
                     <div><span>Y</span></div>
                 </div>
+                
                 <div class="avatar">
-                    <!-- 3. Avatar của người bạn muốn gởi lời chúc -->
-                    <img src="https://i.ibb.co/4c86v9t/IMG-1792043435632-1793205902395.jpg" alt="Avatar" class="avatar__img" onclick="showMessage()" />
+                    <!-- 3. DÁN LẠI LINK ẢNH VỪA HIỆN CỦA BẠN VÀO src="" DƯỚI ĐÂY -->
+                    <img src="https://i.ibb.co/4c86v9t/IMG-1792043435632-1793205902395.jpg " alt="Avatar" class="avatar__img" onclick="showMessage()" />
+                    
                     <!-- 4. Tên của người đó -->
                     <h1 onclick="showMessage()" class="avatar__title">Vũ Bảo Nhi</h1>
                 </div>
             </div>
         </div>
 
-        <!-- Thư viện SweetAlert cần được tải trước hoặc cùng hàm showMessage -->
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        
         <script>
             if (document.location.search.match(/type=embed/gi)) {
                 window.parent.postMessage("resize", "*");
             }
-            
             function showMessage() {
                 // 6. Lời nhắn hiện ra khi bấm vào tên hoặc avatar
                 swal({
-                    title: "Lời nhắn", // Tiêu đề của popup
-                    text: "Chúc Bảo Nhi tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳", // Nội dung lời nhắn
+                    title: "Lời nhắn",
+                    text: "Chúc Bảo Nhi tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
                     button: {
-                        text: "❤️", // Đã thêm dấu { bị thiếu ở đây
-                    }
+                        text: "❤️",
+                    },
                 });
             }
         </script>
@@ -64,7 +171,6 @@
             Trình duyệt của bạn không hỗ trợ thẻ audio.
         </audio>
 
-        <!-- Đoạn script hỗ trợ tự động phát trên các trình duyệt chặn autoplay -->
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 var music = document.getElementById("bg-music");
