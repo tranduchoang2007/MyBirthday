@@ -8,110 +8,95 @@
         <link rel="stylesheet" href="./style.css">
         <link href="https://fonts.googleapis.com/css?family=Wendy+One" rel="stylesheet" type="text/css" />
         
-        <!-- CSS Responsive giúp hiển thị chuẩn trên mọi thiết bị (Điện thoại, Tablet, PC) -->
         <style>
             html, body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                height: 100%;
-                overflow-x: hidden;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                min-height: 100vh !important;
+                overflow-x: hidden !important;
             }
 
             .container {
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                justify-content: flex-start !important;
-                min-height: 100vh !important;
                 width: 100% !important;
+                min-height: 100vh !important;
                 position: relative !important;
-                padding-top: 20px !important;
+                margin: 0 !important;
+                padding: 0 0 30px 0 !important;
                 box-sizing: border-box !important;
+                overflow: hidden !important;
             }
 
-            /* Cố định khung chuẩn của bóng bay để không bị vỡ hàng */
+            /* Khung bóng bay sẽ được JS tự động đo và căn giữa tuyệt đối */
             .balloon {
-                width: 780px !important;
-                height: 260px !important;
-                position: relative !important;
-                margin: 0 auto !important;
-                left: auto !important;
-                top: auto !important;
-                transform-origin: top center !important;
+                position: absolute !important;
+                top: 20px !important;
+                left: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                transform-origin: top left !important;
                 z-index: 5;
             }
 
-            /* Khung ảnh và tên nằm tách biệt hoàn toàn bên dưới bóng bay */
+            /* Khung chứa ảnh và tên luôn nằm chính giữa màn hình */
             .avatar {
                 position: relative !important;
                 top: auto !important;
                 left: auto !important;
                 transform: none !important;
-                margin-top: 40px !important;
+                margin: 0 auto !important;
                 text-align: center !important;
-                z-index: 20 !important;
                 width: 100% !important;
+                z-index: 20 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
             }
 
+            /* Kích thước ảnh tự co giãn mượt theo độ rộng màn hình (clamp) */
             .avatar__img {
-                width: 180px !important;
-                height: 180px !important;
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                transform: none !important;
+                width: clamp(135px, 38vw, 190px) !important;
+                height: clamp(135px, 38vw, 190px) !important;
                 object-fit: cover !important;
                 border-radius: 50% !important;
                 border: 4px solid #ff6b81 !important;
-                box-shadow: 0 0 25px rgba(255, 107, 129, 0.8) !important;
+                box-shadow: 0 0 25px rgba(255, 107, 129, 0.85) !important;
                 cursor: pointer;
-                display: block !important;
                 margin: 0 auto !important;
+                display: block !important;
             }
 
-            .avatar__title {
-                margin-top: 18px !important;
-                font-size: 32px !important;
+            /* Cỡ chữ tên tự co giãn theo màn hình và nằm ngay sát dưới ảnh */
+            .avatar__title, h1.avatar__title {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                transform: none !important;
+                margin: 16px 0 0 0 !important;
+                padding: 0 10px !important;
+                font-size: clamp(26px, 7vw, 42px) !important;
+                line-height: 1.2 !important;
                 cursor: pointer;
-                text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7) !important;
+                text-align: center !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
 
-            /* Tự động thu phóng trên màn hình Tablet / Điện thoại lớn */
-            @media screen and (max-width: 800px) {
-                .balloon {
-                    transform: scale(0.65) !important;
-                    margin-bottom: -70px !important;
-                }
+            /* Tối ưu khung thông báo (SweetAlert) trên màn hình điện thoại nhỏ */
+            .swal-modal {
+                width: 88% !important;
+                max-width: 400px !important;
+                border-radius: 16px !important;
             }
-
-            /* Tự động thu phóng trên màn hình Điện thoại thông thường */
-            @media screen and (max-width: 500px) {
-                .container {
-                    padding-top: 35px !important;
-                }
-                .balloon {
-                    transform: scale(0.46) !important;
-                    margin-bottom: -110px !important;
-                }
-                .avatar {
-                    margin-top: 25px !important;
-                }
-                .avatar__img {
-                    width: 155px !important;
-                    height: 155px !important;
-                }
-                .avatar__title {
-                    font-size: 28px !important;
-                }
-            }
-
-            /* Điện thoại màn hình nhỏ */
-            @media screen and (max-width: 375px) {
-                .balloon {
-                    transform: scale(0.4) !important;
-                    margin-bottom: -130px !important;
-                }
-                .avatar__img {
-                    width: 135px !important;
-                    height: 135px !important;
-                }
+            .swal-text {
+                text-align: center !important;
+                font-size: 16px !important;
+                line-height: 1.5 !important;
             }
         </style>
     </head>
@@ -122,7 +107,7 @@
             <div class="after"></div>
             <div class="container">
                 <!-- 2. Dòng chữ Happy Birthday -->
-                <div class="balloon">
+                <div class="balloon" id="balloon-box">
                     <div><span>H</span></div>
                     <div><span>A</span></div>
                     <div><span>P</span></div>
@@ -138,8 +123,8 @@
                     <div><span>Y</span></div>
                 </div>
                 
-                <div class="avatar">
-                    <!-- 3. DÁN LẠI LINK ẢNH VỪA HIỆN CỦA BẠN VÀO src="" DƯỚI ĐÂY -->
+                <div class="avatar" id="avatar-box">
+                    <!-- 3. DÁN LINK ẢNH CỦA BẠN VÀO src="" DƯỚI ĐÂY -->
                     <img src="https://i.ibb.co/4c86v9t/IMG-1792043435632-1793205902395.jpg " alt="Avatar" class="avatar__img" onclick="showMessage()" />
                     
                     <!-- 4. Tên của người đó -->
@@ -150,14 +135,62 @@
 
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
-            if (document.location.search.match(/type=embed/gi)) {
-                window.parent.postMessage("resize", "*");
+            // Hàm tự động đo tọa độ chùm bóng bay và căn giữa chuẩn 100% trên mọi thiết bị
+            function fitAllDevices() {
+                var balloon = document.getElementById('balloon-box');
+                var avatar = document.getElementById('avatar-box');
+                if (!balloon || !avatar) return;
+
+                // Reset tạm thời để đo vị trí gốc của các quả bóng trong style.css
+                balloon.style.transform = 'none';
+                var items = balloon.children;
+                var minX = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+                for (var i = 0; i < items.length; i++) {
+                    var el = items[i];
+                    var x = el.offsetLeft;
+                    var y = el.offsetTop;
+                    var w = el.offsetWidth || 105;
+                    var h = el.offsetHeight || 125;
+                    if (x < minX) minX = x;
+                    if (x + w > maxX) maxX = x + w;
+                    if (y + h > maxY) maxY = y + h;
+                }
+
+                var realWidth = maxX - minX;
+                var realHeight = maxY;
+                var screenW = window.innerWidth;
+                var screenH = window.innerHeight;
+
+                // Tính tỷ lệ thu phóng sao cho chùm bóng chiếm tối đa 92% chiều ngang màn hình
+                var scale = (screenW * 0.92) / realWidth;
+                if (scale > 1) scale = 1; // Không phóng to quá kích thước gốc trên PC
+
+                // Nếu xoay ngang điện thoại (chiều cao thấp), thu nhỏ thêm để vừa cả ảnh
+                if (screenH < 500) {
+                    scale = Math.min(scale, (screenH * 0.42) / realHeight);
+                }
+
+                // Tính vị trí X để tâm của chùm bóng nằm đúng chính giữa màn hình
+                var targetLeft = (screenW - realWidth * scale) / 2 - (minX * scale);
+                var topOffset = screenH < 500 ? 10 : 25;
+
+                balloon.style.top = topOffset + 'px';
+                balloon.style.transform = 'translateX(' + targetLeft + 'px) scale(' + scale + ')';
+
+                // Tự động đẩy khung Avatar xuống ngay dưới chùm bóng bay + khoảng cách 35px
+                var avatarTop = topOffset + (realHeight * scale) + (screenH < 500 ? 15 : 35);
+                avatar.style.paddingTop = avatarTop + 'px';
             }
+
+            window.addEventListener('DOMContentLoaded', fitAllDevices);
+            window.addEventListener('load', fitAllDevices);
+            window.addEventListener('resize', fitAllDevices);
+
             function showMessage() {
-                // 6. Lời nhắn hiện ra khi bấm vào tên hoặc avatar
                 swal({
                     title: "Lời nhắn",
-                    text: "Chúc Bảo Nhi tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
+                    text: "Chúc bạn tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
                     button: {
                         text: "❤️",
                     },
