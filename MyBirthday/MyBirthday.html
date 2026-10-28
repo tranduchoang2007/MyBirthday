@@ -100,7 +100,6 @@
                 box-shadow: 0 15px 35px rgba(255, 77, 109, 0.7), 0 0 25px rgba(255, 182, 193, 0.5);
             }
 
-            /* Nắp hộp quà */
             .gift-lid {
                 position: absolute;
                 top: -20px;
@@ -112,7 +111,6 @@
                 box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             }
 
-            /* Dải ruy băng dọc */
             .gift-ribbon-vertical {
                 position: absolute;
                 top: 0;
@@ -124,7 +122,6 @@
                 box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
             }
 
-            /* Dải ruy băng ngang */
             .gift-ribbon-horizontal {
                 position: absolute;
                 top: 50%;
@@ -136,7 +133,6 @@
                 box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
             }
 
-            /* Nơ ở đỉnh hộp quà */
             .gift-bow {
                 position: absolute;
                 top: -55px;
@@ -222,7 +218,7 @@
                 box-sizing: border-box !important;
                 overflow: hidden !important;
                 opacity: 0;
-                transition: opacity 1s ease; /* Hiệu ứng dần hiện ra */
+                transition: opacity 1s ease;
             }
 
             .container.show-main {
@@ -586,7 +582,7 @@
             var audioCt = document.getElementById("audio-ct");
             var audioMusic = document.getElementById("audio-music");
 
-            // Mở khóa âm thanh ngầm ngay khi web tải
+            // Mở khóa âm thanh ngầm khi web tải
             document.addEventListener("DOMContentLoaded", function() {
                 [audioCt, audioMusic].forEach(function(aud) {
                     aud.muted = true;
@@ -605,7 +601,10 @@
 
                 setTimeout(function() {
                     audioMusic.currentTime = 0;
-                    audioMusic.play().catch(function(){});
+                    audioMusic.load();
+                    audioMusic.play().catch(function(error) {
+                        console.log("Lỗi phát music.mp3:", error);
+                    });
 
                     var letterBox = document.getElementById("love-letter-box");
                     if (letterBox) {
@@ -673,7 +672,7 @@
                 setTimeout(function() {
                     swal({
                         title: "💌 Gửi Vũ Bảo Nhi 💖",
-                        text: "Chúc Bảo Nhi  tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
+                        text: "Chúc Bảo Nhi tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
                         button: {
                             text: "❤️",
                         },
