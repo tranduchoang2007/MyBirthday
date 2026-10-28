@@ -283,7 +283,7 @@
                 text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
             }
 
-            /* ================= 5. BỨC THƯ MÀU HỒNG (HIỆN SAU KHI HẾT CT.MP3) ================= */
+            /* ================= 5. BỨC THƯ MÀU HỒNG (HIỆN NGAY KHI HẾT CT.MP3) ================= */
             .love-letter-wrapper {
                 margin-top: 15px;
                 display: flex;
@@ -522,7 +522,7 @@
                         <div class="marquee-text">Đợi xíu nhé :&gt;&gt;&gt;&gt;</div>
                     </div>
 
-                    <!-- Bức thư màu hồng tình yêu (Ẩn lúc đầu, chỉ hiện sau khi xong ct.mp3) -->
+                    <!-- Bức thư màu hồng tình yêu (Hiện ngay khi xong ct.mp3) -->
                     <div class="love-letter-wrapper" id="love-letter-box" onclick="openLoveLetter()">
                         <div class="envelope" id="love-envelope">
                             <div class="envelope-flap"></div>
@@ -538,7 +538,7 @@
             </div>
         </div>
 
-        <!-- 4. Âm thanh (Hãy kiểm tra kỹ tên file trong thư mục của bạn có đúng là music.mp3 không) -->
+        <!-- 4. Âm thanh -->
         <audio id="audio-ct" src="./ct.mp3" preload="auto"></audio>
         <audio id="audio-music" src="./music.mp3" preload="auto" loop></audio>
 
@@ -581,7 +581,6 @@
             // ================= XỬ LÝ ÂM THANH & TRÌNH TỰ =================
             var audioCt = document.getElementById("audio-ct");
             var audioMusic = document.getElementById("audio-music");
-            var isMusicPlaying = false;
 
             // Mở khóa âm thanh ngầm khi web tải
             document.addEventListener("DOMContentLoaded", function() {
@@ -595,24 +594,20 @@
                 });
             });
 
-            // Khi ct.mp3 phát xong 1 lần -> Ẩn chữ chạy -> Đợi 1 giây -> Phát music.mp3 -> Hiện bức thư
+            // Khi ct.mp3 phát xong 1 lần -> Ẩn chữ chạy -> Phát ngay music.mp3 -> Hiện bức thư ngay lập tức
             audioCt.addEventListener("ended", function() {
                 var marquee = document.getElementById("marquee-container");
                 if (marquee) marquee.style.display = "none";
 
-                setTimeout(function() {
-                    audioMusic.currentTime = 0;
-                    audioMusic.play().then(function() {
-                        isMusicPlaying = true;
-                    }).catch(function(error) {
-                        console.log("Trình duyệt chặn tự phát music.mp3, đang chờ tương tác người dùng...");
-                    });
+                audioMusic.currentTime = 0;
+                audioMusic.play().catch(function(error) {
+                    console.log("Lỗi phát music.mp3:", error);
+                });
 
-                    var letterBox = document.getElementById("love-letter-box");
-                    if (letterBox) {
-                        letterBox.classList.add("show-letter");
-                    }
-                }, 1000);
+                var letterBox = document.getElementById("love-letter-box");
+                if (letterBox) {
+                    letterBox.classList.add("show-letter");
+                }
             });
 
             // Xử lý đếm ngược 5 4 3 2 1
@@ -667,10 +662,8 @@
             // ================= MỞ THƯ TÌNH YÊU & BẢO VỆ PHÁT NHẠC =================
             function openLoveLetter() {
                 // Nếu vô tình bài music.mp3 chưa tự phát do rào cản trình duyệt, cú chạm mở thư này sẽ kích hoạt nó luôn
-                if (!isMusicPlaying && audioMusic.paused && audioCt.ended) {
-                    audioMusic.play().then(function() {
-                        isMusicPlaying = true;
-                    }).catch(function(){});
+                if (audioCt.ended && audioMusic.paused) {
+                    audioMusic.play().catch(function(){});
                 }
 
                 var envelope = document.getElementById("love-envelope");
@@ -681,7 +674,7 @@
                 setTimeout(function() {
                     swal({
                         title: "💌 Gửi Vũ Bảo Nhi 💖",
-                        text: "Chúc Bảo Nhi tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
+                        text: "Chúc bạn tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
                         button: {
                             text: "❤️",
                         },
@@ -695,10 +688,8 @@
 
             // Lớp bảo vệ bổ sung: Bất kỳ cú chạm nào trên toàn trang sau khi hết bài ct.mp3 cũng sẽ kích hoạt music.mp3 nếu bị kẹt
             document.addEventListener("click", function() {
-                if (!isMusicPlaying && audioCt.ended && audioMusic.paused) {
-                    audioMusic.play().then(function() {
-                        isMusicPlaying = true;
-                    }).catch(function(){});
+                if (audioCt.ended && audioMusic.paused) {
+                    audioMusic.play().catch(function(){});
                 }
             });
         </script>
