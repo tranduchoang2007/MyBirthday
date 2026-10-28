@@ -2,12 +2,13 @@
 <html lang="vi">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <link rel="shortcut icon" type="image/png" href="./birthdayCake.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="shortcut icon" type="image/png" href="./birthdayCake.png"/>
         <title>Happy Birthday - Vũ Bảo Nhi</title>
-        <link rel="stylesheet" href="./style.css" />
+        <link rel="stylesheet" href="./style.css">
         <link href="https://fonts.googleapis.com/css?family=Wendy+One" rel="stylesheet" type="text/css" />
-
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        
         <style>
             html, body {
                 margin: 0 !important;
@@ -17,41 +18,62 @@
                 overflow-x: hidden !important;
             }
 
+            /* ================= 1. MÀN HÌNH ĐẾM NGƯỢC 5 4 3 2 1 ================= */
+            #intro-screen {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: #1aabe3;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 999999999;
+                font-family: 'Montserrat', sans-serif;
+                transition: opacity 0.6s ease, visibility 0.6s ease;
+                user-select: none;
+            }
+
+            #intro-screen.hidden {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+
+            #intro-digit {
+                text-align: center;
+                text-shadow: 12px 15px 0px rgba(49, 78, 99, 0.57);
+                font-size: clamp(140px, 45vw, 280px);
+                color: rgba(255, 255, 255, 0.97);
+                -webkit-text-stroke-color: #1679bf;
+                -webkit-text-stroke-width: thin;
+                font-weight: 700;
+                line-height: 1;
+            }
+
+            /* ================= 2. GIAO DIỆN CHÍNH (CHUẨN MỌI THIẾT BỊ) ================= */
             .container {
                 width: 100% !important;
                 min-height: 100vh !important;
                 position: relative !important;
                 margin: 0 !important;
-                padding: 0 0 30px 0 !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                justify-content: flex-start !important;
+                padding: 0 0 40px 0 !important;
                 box-sizing: border-box !important;
                 overflow: hidden !important;
             }
 
-            /* Khung bọc ngoài giúp thu phóng bóng bay chuẩn trên mọi màn hình */
-            #balloon-scale-wrapper {
-                width: 100% !important;
-                position: relative !important;
-                display: flex !important;
-                justify-content: center !important;
-                align-items: flex-start !important;
-                margin-top: 15px !important;
-                z-index: 5;
-            }
-
             .balloon {
-                width: 800px !important;
-                height: 280px !important;
-                position: relative !important;
-                top: 0 !important;
+                position: absolute !important;
+                top: 15px !important;
                 left: 0 !important;
+                width: 738px !important;
+                height: 360px !important;
                 margin: 0 !important;
-                padding: 0 !important;
-                transform-origin: top center !important;
-                flex-shrink: 0 !important;
+                padding-top: 30px !important;
+                transform-origin: 0 0 !important;
+                z-index: 5;
             }
 
             .avatar {
@@ -59,27 +81,26 @@
                 top: auto !important;
                 left: auto !important;
                 transform: none !important;
-                margin: 15px auto 0 auto !important;
-                padding: 0 !important;
+                margin: 0 auto !important;
                 text-align: center !important;
                 width: 100% !important;
                 z-index: 20 !important;
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
+                justify-content: center !important;
             }
 
             .avatar__img {
                 position: relative !important;
                 top: auto !important;
                 left: auto !important;
-                transform: none !important;
-                width: clamp(140px, 38vw, 190px) !important;
-                height: clamp(140px, 38vw, 190px) !important;
+                width: clamp(130px, 35vw, 185px) !important;
+                height: clamp(130px, 35vw, 185px) !important;
                 object-fit: cover !important;
                 border-radius: 50% !important;
-                border: 4px solid #ff6b81 !important;
-                box-shadow: 0 0 25px rgba(255, 107, 129, 0.85) !important;
+                border: 5px solid rgba(234, 15, 150, 0.9) !important;
+                box-shadow: 0 0 25px rgba(255, 107, 129, 0.85), inset 10px 10px 10px rgba(15, 219, 234, 0.9) !important;
                 cursor: pointer;
                 margin: 0 auto !important;
                 display: block !important;
@@ -87,151 +108,398 @@
 
             .avatar__title, h1.avatar__title {
                 position: relative !important;
-                top: auto !important;
-                left: auto !important;
-                transform: none !important;
+                top: 0 !important;
+                left: 0 !important;
                 margin: 18px 0 0 0 !important;
                 padding: 0 12px !important;
-                font-size: clamp(28px, 7.5vw, 42px) !important;
+                font-size: clamp(28px, 7.5vw, 44px) !important;
                 line-height: 1.25 !important;
                 cursor: pointer;
                 text-align: center !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
+                color: white !important;
+                text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
             }
 
+            /* ================= 3. BỨC THƯ MÀU HỒNG TÌNH YÊU & TRÁI TIM ================= */
+            .love-letter-wrapper {
+                margin-top: 28px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                cursor: pointer;
+                z-index: 30;
+                -webkit-tap-highlight-color: transparent;
+                animation: floatEnvelope 3s ease-in-out infinite;
+            }
+
+            .envelope {
+                position: relative;
+                width: 130px;
+                height: 86px;
+                background: #ff758f;
+                border-radius: 0 0 10px 10px;
+                box-shadow: 0 10px 25px rgba(255, 77, 109, 0.65), 0 0 15px rgba(255, 182, 193, 0.4);
+                transition: transform 0.3s ease;
+            }
+
+            .love-letter-wrapper:hover .envelope {
+                transform: scale(1.06);
+            }
+
+            .envelope-flap {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 0;
+                height: 0;
+                border-left: 65px solid transparent;
+                border-right: 65px solid transparent;
+                border-top: 52px solid #ff4d6d;
+                transform-origin: top center;
+                transition: transform 0.45s ease, z-index 0.2s;
+                z-index: 4;
+                filter: drop-shadow(0 2px 3px rgba(180, 20, 50, 0.3));
+            }
+
+            .envelope-pocket {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 0;
+                border-left: 65px solid #ff8fa3;
+                border-right: 65px solid #ff8fa3;
+                border-top: 43px solid transparent;
+                border-bottom: 43px solid #ff6b8b;
+                border-radius: 0 0 10px 10px;
+                z-index: 3;
+            }
+
+            .envelope-paper {
+                position: absolute;
+                bottom: 6px;
+                left: 10px;
+                width: 110px;
+                height: 70px;
+                background: #fff0f3;
+                border-radius: 6px;
+                z-index: 2;
+                transition: transform 0.45s ease;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+                padding-top: 10px;
+                box-sizing: border-box;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+            }
+
+            .envelope-paper span {
+                font-size: 14px !important;
+                color: #ff4d6d !important;
+                position: static !important;
+                margin: 0 !important;
+                text-transform: none !important;
+                font-family: 'Lobster', cursive;
+            }
+
+            .heart-seal {
+                position: absolute;
+                top: 48px;
+                left: 50%;
+                width: 24px;
+                height: 24px;
+                background: #e01e37;
+                transform: translate(-50%, -50%) rotate(45deg);
+                z-index: 5;
+                box-shadow: 0 3px 10px rgba(224, 30, 55, 0.75);
+                animation: pulseHeart 1.2s infinite;
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+
+            .heart-seal::before,
+            .heart-seal::after {
+                content: "";
+                position: absolute;
+                width: 24px;
+                height: 24px;
+                background: #e01e37;
+                border-radius: 50%;
+            }
+
+            .heart-seal::before {
+                left: -12px;
+                top: 0;
+            }
+
+            .heart-seal::after {
+                top: -12px;
+                left: 0;
+            }
+
+            .envelope.open .envelope-flap {
+                transform: rotateX(180deg);
+                z-index: 1;
+            }
+
+            .envelope.open .envelope-paper {
+                transform: translateY(-32px);
+            }
+
+            .envelope.open .heart-seal {
+                opacity: 0;
+                transform: translate(-50%, -50%) rotate(45deg) scale(1.5);
+            }
+
+            .letter-hint {
+                margin-top: 12px;
+                color: #ffb3c6;
+                font-size: 16px;
+                letter-spacing: 0.5px;
+                text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+            }
+
+            @keyframes pulseHeart {
+                0%, 100% {
+                    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+                }
+                50% {
+                    transform: translate(-50%, -50%) rotate(45deg) scale(1.22);
+                }
+            }
+
+            @keyframes floatEnvelope {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-8px);
+                }
+            }
+
+            /* ================= 4. LÀM ĐẸP BẢNG NỘI DUNG LỜI CHÚC ================= */
             .swal-modal {
                 width: 88% !important;
-                max-width: 400px !important;
-                border-radius: 16px !important;
+                max-width: 420px !important;
+                border-radius: 20px !important;
+                background: linear-gradient(180deg, #fff0f3 0%, #ffe5ec 100%) !important;
+                border: 3px solid #ff8fa3 !important;
+                box-shadow: 0 15px 40px rgba(255, 77, 109, 0.5) !important;
+            }
+            .swal-title {
+                color: #d90429 !important;
+                font-family: 'Lobster', cursive !important;
+                font-size: 28px !important;
             }
             .swal-text {
                 text-align: center !important;
-                font-size: 16px !important;
-                line-height: 1.5 !important;
+                font-size: 19px !important;
+                line-height: 1.55 !important;
+                color: #590d22 !important;
+                word-spacing: normal !important;
+            }
+            .swal-button {
+                background-color: #ff4d6d !important;
+                border-radius: 25px !important;
+                padding: 8px 28px !important;
+                font-size: 18px !important;
+                box-shadow: 0 4px 12px rgba(255, 77, 109, 0.5) !important;
             }
         </style>
     </head>
 
     <body>
+        <!-- 1. Màn hình đếm ngược 5 4 3 2 1 -->
+        <div id="intro-screen">
+            <div id="intro-digit">5</div>
+        </div>
+
+        <!-- 2. Giao diện chúc mừng sinh nhật -->
         <div class="pyro">
             <div class="before"></div>
             <div class="after"></div>
             <div class="container">
-                <div id="balloon-scale-wrapper">
-                    <div class="balloon" id="balloon-box">
-                        <div><span>H</span></div>
-                        <div><span>A</span></div>
-                        <div><span>P</span></div>
-                        <div><span>P</span></div>
-                        <div><span>Y</span></div>
-                        <div><span>B</span></div>
-                        <div><span>I</span></div>
-                        <div><span>R</span></div>
-                        <div><span>T</span></div>
-                        <div><span>H</span></div>
-                        <div><span>D</span></div>
-                        <div><span>A</span></div>
-                        <div><span>Y</span></div>
-                    </div>
+                <div class="balloon" id="balloon-box">
+                    <div><span>H</span></div>
+                    <div><span>A</span></div>
+                    <div><span>P</span></div>
+                    <div><span>P</span></div>
+                    <div><span>Y</span></div>
+                    <div><span>B</span></div>
+                    <div><span>I</span></div>
+                    <div><span>R</span></div>
+                    <div><span>T</span></div>
+                    <div><span>H</span></div>
+                    <div><span>D</span></div>
+                    <div><span>A</span></div>
+                    <div><span>Y</span></div>
                 </div>
+                
+                <div class="avatar" id="avatar-box">
+                    <!-- Ảnh đại diện -->
+                    <img 
+                        src="https://i.ibb.co/4c86v9t/IMG-1792043435632-1793205902395.jpg" 
+                        onerror="this.onerror=null; this.src='./MyAvatar.jpg';" 
+                        alt="Vũ Bảo Nhi" 
+                        class="avatar__img" 
+                        onclick="openLoveLetter()" 
+                    />
+                    <!-- Tên -->
+                    <h1 onclick="openLoveLetter()" class="avatar__title">Vũ Bảo Nhi</h1>
 
-                <div class="avatar">
-                    <img src="./MyAvatar.jpg" alt="Vũ Bảo Nhi" class="avatar__img" onclick="showMessage()" />
-                    <h1 onclick="showMessage()" class="avatar__title">Vũ Bảo Nhi</h1>
+                    <!-- Bức thư màu hồng tình yêu & trái tim ở chỗ mở thư -->
+                    <div class="love-letter-wrapper" onclick="openLoveLetter()">
+                        <div class="envelope" id="love-envelope">
+                            <div class="envelope-flap"></div>
+                            <div class="envelope-paper">
+                                <span>Happy Birthday</span>
+                            </div>
+                            <div class="envelope-pocket"></div>
+                            <div class="heart-seal"></div>
+                        </div>
+                        <div class="letter-hint">💌 Ấn vào trái tim để mở thư nhé!</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Trình phát nhạc (chỉ nằm ở trang này để phát ngay sau khi đếm xong 5-4-3-2-1) -->
-        <audio id="bg-music" preload="auto" loop>
-            <source src="./ct.mp3" type="audio/mpeg" />
-            <source src="./music.mp3" type="audio/mpeg" />
-        </audio>
+        <!-- 3. Hai trình phát nhạc (ct.mp3 phát 1 lần -> nghỉ 1s -> chuyển sang music.mp3) -->
+        <audio id="audio-ct" src="./ct.mp3" preload="auto"></audio>
+        <audio id="audio-music" src="./music.mp3" preload="auto" loop></audio>
 
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
-            // 1. Tự động căn chỉnh bố cục trên mọi thiết bị
-            function optimizeLayout() {
-                var wrapper = document.getElementById("balloon-scale-wrapper");
-                var balloon = document.getElementById("balloon-box");
-                if (!wrapper || !balloon) return;
+            // ================= 1. CĂN GIỮA TUYỆT ĐỐI CHO MỌI MÀN HÌNH =================
+            function fitAllDevices() {
+                var balloon = document.getElementById('balloon-box');
+                var avatar = document.getElementById('avatar-box');
+                if (!balloon || !avatar) return;
 
-                var items = balloon.children;
-                var minX = Infinity, maxX = -Infinity, maxY = -Infinity;
+                var minX = -150;
+                var realWidth = 974;
+                var realHeight = 365;
 
-                for (var i = 0; i < items.length; i++) {
-                    var el = items[i];
-                    var x = el.offsetLeft;
-                    var y = el.offsetTop;
-                    var w = el.offsetWidth || 105;
-                    var h = el.offsetHeight || 125;
-                    if (x < minX) minX = x;
-                    if (x + w > maxX) maxX = x + w;
-                    if (y + h > maxY) maxY = y + h;
-                }
-
-                var realWidth = maxX - minX;
-                var realHeight = maxY;
                 var screenW = window.innerWidth;
                 var screenH = window.innerHeight;
 
-                balloon.style.width = (maxX + minX) + "px";
-
-                var scale = (screenW * 0.94) / realWidth;
+                var scale = (screenW * 0.92) / realWidth;
                 if (scale > 1) scale = 1;
 
-                if (screenH < 500) {
-                    scale = Math.min(scale, (screenH * 0.42) / realHeight);
+                if (screenH < 560) {
+                    scale = Math.min(scale, (screenH * 0.36) / realHeight);
                 }
 
-                var offsetX = ((800 - (maxX + minX)) / 2) * scale;
-                balloon.style.transform = "translateX(" + offsetX + "px) scale(" + scale + ")";
-                wrapper.style.height = (realHeight * scale + 20) + "px";
+                var translateX = (screenW - realWidth * scale) / 2 - (minX * scale);
+                var topOffset = screenH < 560 ? 5 : 12;
+
+                balloon.style.top = topOffset + 'px';
+                balloon.style.transform = 'translateX(' + translateX + 'px) scale(' + scale + ')';
+
+                var avatarTop = topOffset + (realHeight * scale) + (screenH < 560 ? 10 : 20);
+                avatar.style.paddingTop = avatarTop + 'px';
             }
 
-            window.addEventListener("DOMContentLoaded", optimizeLayout);
-            window.addEventListener("load", optimizeLayout);
-            window.addEventListener("resize", optimizeLayout);
+            window.addEventListener('DOMContentLoaded', fitAllDevices);
+            window.addEventListener('load', fitAllDevices);
+            window.addEventListener('resize', fitAllDevices);
 
-            // 2. Phát nhạc ngay khi chuyển từ màn đếm ngược 5-4-3-2-1 sang
-            function startMusic() {
-                var music = document.getElementById("bg-music");
-                if (!music) return;
-                music.volume = 1.0;
+            // ================= 2. LOGIC PHÁT ct.mp3 1 LẦN -> ĐỢI 1 GIÂY -> PHÁT music.mp3 =================
+            var audioCt = document.getElementById("audio-ct");
+            var audioMusic = document.getElementById("audio-music");
+            var currentAudio = audioCt;
+            var musicSequenceStarted = false;
+            var isWaitingNextSong = false;
 
-                var playPromise = music.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(function () {
-                        // Nếu trình duyệt điện thoại chặn tự phát khi chuyển trang,
-                        // phát ngay lập tức khi người dùng chạm bất kỳ đâu lên màn hình
-                        var unlockAudio = function () {
-                            music.play();
-                            document.removeEventListener("click", unlockAudio);
-                            document.removeEventListener("touchstart", unlockAudio);
-                        };
-                        document.addEventListener("click", unlockAudio, { once: true });
-                        document.addEventListener("touchstart", unlockAudio, { once: true });
-                    });
-                }
-            }
+            // Ngay khi ct.mp3 phát xong 1 lần -> đợi 1000ms (1 giây) rồi phát music.mp3
+            audioCt.addEventListener("ended", function() {
+                isWaitingNextSong = true;
+                currentAudio = audioMusic;
+                setTimeout(function() {
+                    isWaitingNextSong = false;
+                    audioMusic.currentTime = 0;
+                    audioMusic.play().catch(function(){});
+                }, 1000);
+            });
 
-            window.addEventListener("DOMContentLoaded", startMusic);
-            window.addEventListener("load", startMusic);
-
-            // 3. Hiển thị lời chúc (đồng thời đảm bảo nhạc phát nếu chưa kêu)
-            function showMessage() {
-                var music = document.getElementById("bg-music");
-                if (music && music.paused) {
-                    music.play();
-                }
-                swal({
-                    title: "Lời nhắn",
-                    text: "Chúc bạn tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
-                    button: {
-                        text: "❤️",
-                    },
+            function startMusicSequence() {
+                if (musicSequenceStarted) return;
+                currentAudio.muted = false;
+                currentAudio.play().then(function() {
+                    musicSequenceStarted = true;
+                }).catch(function() {
+                    var unlock = function() {
+                        if (!musicSequenceStarted) {
+                            currentAudio.muted = false;
+                            currentAudio.play();
+                            musicSequenceStarted = true;
+                        }
+                    };
+                    document.addEventListener("click", unlock, { once: true });
+                    document.addEventListener("touchstart", unlock, { once: true });
                 });
+            }
+
+            // ================= 3. ĐẾM NGƯỢC 5 4 3 2 1 XONG MỚI BẮT ĐẦU NHẠC =================
+            document.addEventListener("DOMContentLoaded", function() {
+                var introScreen = document.getElementById("intro-screen");
+                var digitEl = document.getElementById("intro-digit");
+                var count = 5;
+
+                var silentUnlock = function() {
+                    if (!musicSequenceStarted && count > 0) {
+                        [audioCt, audioMusic].forEach(function(aud) {
+                            aud.muted = true;
+                            aud.play().then(function() {
+                                aud.pause();
+                                aud.currentTime = 0;
+                                aud.muted = false;
+                            }).catch(function(){});
+                        });
+                    }
+                };
+                document.addEventListener("touchstart", silentUnlock, { once: true });
+                document.addEventListener("click", silentUnlock, { once: true });
+
+                var timer = setInterval(function() {
+                    count--;
+                    if (count > 0) {
+                        digitEl.innerText = count;
+                    } else {
+                        clearInterval(timer);
+                        digitEl.innerText = "0";
+                        introScreen.classList.add("hidden");
+                        startMusicSequence(); // Phát ct.mp3 (1 lần) -> nghỉ 1s -> music.mp3
+                    }
+                }, 1000);
+            });
+
+            // ================= 4. HIỆU ỨNG MỞ THƯ TÌNH YÊU VÀ HIỆN LỜI CHÚC =================
+            function openLoveLetter() {
+                if ((!musicSequenceStarted || currentAudio.paused) && !isWaitingNextSong) {
+                    currentAudio.muted = false;
+                    currentAudio.play().catch(function(){});
+                    musicSequenceStarted = true;
+                }
+
+                var envelope = document.getElementById("love-envelope");
+                if (envelope) {
+                    envelope.classList.add("open");
+                }
+
+                setTimeout(function() {
+                    swal({
+                        title: "💌 Gửi Vũ Bảo Nhi 💖",
+                        text: "Chúc Bảo Nhi  tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
+                        button: {
+                            text: "❤️",
+                        },
+                    }).then(function() {
+                        if (envelope) {
+                            envelope.classList.remove("open");
+                        }
+                    });
+                }, 350);
             }
         </script>
     </body>
