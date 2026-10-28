@@ -1,52 +1,19 @@
-
-<html lang="vi"
-    __fvdsurfcanyoninserted="1"
-    class="
-        clickberry-extension
-        clickberry-extension-standalone
-        clickberry-extension
-        clickberry-extension-standalone
-        clickberry-extension
-        clickberry-extension-standalone
-    "
->
+<!DOCTYPE html>
+<html lang="vi">
     <head>
         <meta charset="UTF-8" />
         <link rel="shortcut icon" type="image/png" href="./birthdayCake.png"/>
         <title>Happy Birthday</title>
         <link rel="stylesheet" href="./style.css">
-        <script>
-            window.open = function () {};
-            window.print = function () {};
-            // Support hover state for mobile.
-            if (false) {
-                window.ontouchstart = function () {};
-            }
-        </script>
-        <script
-            type="text/javascript"
-            src="chrome-extension://bfbmjmiodbnnpllbbbfblcplfjjepjdn/js/injected.js"
-        ></script>
-        <meta content="clickberry-extension-here" />
+        <link href="https://fonts.googleapis.com/css?family=Wendy+One" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
-
-        <link
-            href="https://fonts.googleapis.com/css?family=Wendy+One"
-            rel="stylesheet"
-            type="text/css"
-        />
         <div class="pyro">
-            <div class="before">
-                
-            </div>
-            <div class="after">
-
-            </div>
+            <div class="before"></div>
+            <div class="after"></div>
             <div class="container">
-                <!-- 2. Dòng chữ Happy Birthday
-                Nếu bạn muốn thêm chữ vào thì phải thay đổi css tương ứng cho nó -->
+                <!-- 2. Dòng chữ Happy Birthday -->
                 <div class="balloon">
                     <div><span>H</span></div>
                     <div><span>A</span></div>
@@ -64,45 +31,49 @@
                 </div>
                 <div class="avatar">
                     <!-- 3. Avatar của người bạn muốn gởi lời chúc -->
-                    <img src="https://i.imgur.com/X0Ff5.jpg/MyAvatar.jpg" alt="" class="avatar__img" onclick="showMessage()" />
+                    <img src="https://ibb.co/4c86v9t" alt="Avatar" class="avatar__img" onclick="showMessage()" />
                     <!-- 4. Tên của người đó -->
-                    <h1 onclick="showMessage()" class="avatar__title">Vũ Bảo Nhi </h1>
+                    <h1 onclick="showMessage()" class="avatar__title">Vũ Bảo Nhi</h1>
                 </div>
-   
-             
+            </div>
+        </div>
 
+        <!-- Thư viện SweetAlert cần được tải trước hoặc cùng hàm showMessage -->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        
         <script>
             if (document.location.search.match(/type=embed/gi)) {
                 window.parent.postMessage("resize", "*");
             }
+            
             function showMessage() {
                 // 6. Lời nhắn hiện ra khi bấm vào tên hoặc avatar
                 swal({
                     title: "Lời nhắn", // Tiêu đề của popup
-                    text: "Chúc bạn tuổi mới sức khỏe dồi dào,luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bao Nhi ! 🥳", // Nội dung lời nhắn
-                    button: 
-                        text: "❤️️",
-                    },
+                    text: "Chúc Bảo Nhi tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳", // Nội dung lời nhắn
+                    button: {
+                        text: "❤️", // Đã thêm dấu { bị thiếu ở đây
+                    }
                 });
             }
         </script>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <!-- Trình phát file nhạc tự động chạy và lặp lại -->
-<audio id="bg-music" autoplay loop>
-    <source src="ct.mp3" type="audio/mpeg">
-    Trình duyệt của bạn không hỗ trợ thẻ audio.
-</audio>
 
-<!-- Đoạn script hỗ trợ tự động phát trên các trình duyệt chặn autoplay -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var music = document.getElementById("bg-music");
-        music.play().catch(function() {
-            document.body.addEventListener("click", function() {
-                music.play();
-            }, { once: true });
-        });
-    });
-</script>
+        <!-- Trình phát file nhạc tự động chạy và lặp lại -->
+        <audio id="bg-music" autoplay loop>
+            <source src="ct.mp3" type="audio/mpeg">
+            Trình duyệt của bạn không hỗ trợ thẻ audio.
+        </audio>
+
+        <!-- Đoạn script hỗ trợ tự động phát trên các trình duyệt chặn autoplay -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var music = document.getElementById("bg-music");
+                music.play().catch(function() {
+                    document.body.addEventListener("click", function() {
+                        music.play();
+                    }, { once: true });
+                });
+            });
+        </script>
     </body>
 </html>
