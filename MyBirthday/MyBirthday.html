@@ -31,17 +31,7 @@
     </head>
 
     <body>
-        <!-- Trình phát nhạc YouTube ẩn và tự động chạy -->
-<div style="display: none;">
-    <iframe width="560" height="315" 
-        src="https://www.youtube.com/embed/Og25tNifNSs?autoplay=1&loop=1&playlist=Og25tNifNSs" 
-        title="YouTube video player" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
-        allowfullscreen>
-    </iframe>
-</div>
+
         <link
             href="https://fonts.googleapis.com/css?family=Wendy+One"
             rel="stylesheet"
@@ -97,5 +87,22 @@
             }
         </script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <!-- Trình phát file nhạc tự động chạy và lặp lại -->
+<audio id="bg-music" autoplay loop>
+    <source src="n.mp3" type="audio/mpeg">
+    Trình duyệt của bạn không hỗ trợ thẻ audio.
+</audio>
+
+<!-- Đoạn script hỗ trợ tự động phát trên các trình duyệt chặn autoplay -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var music = document.getElementById("bg-music");
+        music.play().catch(function() {
+            document.body.addEventListener("click", function() {
+                music.play();
+            }, { once: true });
+        });
+    });
+</script>
     </body>
 </html>
