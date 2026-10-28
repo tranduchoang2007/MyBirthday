@@ -77,13 +77,6 @@
   .count-dots{display:flex;gap:10px;}
   .count-dots i{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.35);transition:background .3s,transform .3s;}
   .count-dots i.on{background:#fff;transform:scale(1.25);}
-  .skip-btn{
-    margin-top:10px;min-height:48px;padding:12px 26px;border-radius:999px;
-    background:rgba(255,255,255,.18);color:#fff;font-size:16px;font-weight:600;
-    border:2px solid rgba(255,255,255,.55);backdrop-filter:blur(4px);
-  }
-  .skip-btn:active{transform:scale(.96);}
-
   /* ================= MÀN 2: HỘP QUÀ ================= */
   #screen-gift{background:var(--overlay-bg);color:#fff;z-index:190;}
   .gift-stage{display:flex;flex-direction:column;align-items:center;gap:8px;}
@@ -316,7 +309,6 @@
   <div id="count-digit" class="pop">5</div>
   <p class="count-caption">Sắp có bất ngờ dành cho Nhi nè…</p>
   <div class="count-dots" id="count-dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
-  <button class="skip-btn" id="skip-btn" type="button">Bỏ qua đếm ngược</button>
 </section>
 
 <!-- MÀN 2: HỘP QUÀ -->
