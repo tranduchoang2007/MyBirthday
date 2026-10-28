@@ -53,7 +53,33 @@
                 line-height: 1;
             }
 
-            /* ================= 2. GIAO DIỆN CHÍNH (CHUẨN MỌI THIẾT BỊ) ================= */
+            /* ================= 2. DÒNG CHỮ CHẠY "Đợi xíu nhé :>>>>" ================= */
+            #marquee-container {
+                position: relative;
+                width: 100%;
+                margin-top: 25px;
+                overflow: hidden;
+                height: 40px;
+                z-index: 25;
+                display: none;
+            }
+
+            .marquee-text {
+                position: absolute;
+                white-space: nowrap;
+                font-family: 'Lobster', cursive;
+                font-size: 26px;
+                color: #ffb3c6;
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+                animation: runMarquee 6s linear infinite;
+            }
+
+            @keyframes runMarquee {
+                0% { transform: translateX(100vw); }
+                100% { transform: translateX(-100%); }
+            }
+
+            /* ================= 3. GIAO DIỆN CHÍNH (CHUẨN MỌI THIẾT BỊ) ================= */
             .container {
                 width: 100% !important;
                 min-height: 100vh !important;
@@ -122,15 +148,25 @@
                 text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
             }
 
-            /* ================= 3. BỨC THƯ MÀU HỒNG TÌNH YÊU & TRÁI TIM ================= */
+            /* ================= 4. BỨC THƯ MÀU HỒNG (HIỆN SAU KHI HẾT CT.MP3) ================= */
             .love-letter-wrapper {
-                margin-top: 28px;
+                margin-top: 15px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 cursor: pointer;
                 z-index: 30;
                 -webkit-tap-highlight-color: transparent;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(20px);
+                transition: opacity 0.8s ease, transform 0.8s ease, visibility 0.8s;
+            }
+
+            .love-letter-wrapper.show-letter {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
                 animation: floatEnvelope 3s ease-in-out infinite;
             }
 
@@ -228,15 +264,8 @@
                 border-radius: 50%;
             }
 
-            .heart-seal::before {
-                left: -12px;
-                top: 0;
-            }
-
-            .heart-seal::after {
-                top: -12px;
-                left: 0;
-            }
+            .heart-seal::before { left: -12px; top: 0; }
+            .heart-seal::after { top: -12px; left: 0; }
 
             .envelope.open .envelope-flap {
                 transform: rotateX(180deg);
@@ -253,7 +282,7 @@
             }
 
             .letter-hint {
-                margin-top: 12px;
+                margin-top: 10px;
                 color: #ffb3c6;
                 font-size: 16px;
                 letter-spacing: 0.5px;
@@ -261,24 +290,16 @@
             }
 
             @keyframes pulseHeart {
-                0%, 100% {
-                    transform: translate(-50%, -50%) rotate(45deg) scale(1);
-                }
-                50% {
-                    transform: translate(-50%, -50%) rotate(45deg) scale(1.22);
-                }
+                0%, 100% { transform: translate(-50%, -50%) rotate(45deg) scale(1); }
+                50% { transform: translate(-50%, -50%) rotate(45deg) scale(1.22); }
             }
 
             @keyframes floatEnvelope {
-                0%, 100% {
-                    transform: translateY(0);
-                }
-                50% {
-                    transform: translateY(-8px);
-                }
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-8px); }
             }
 
-            /* ================= 4. LÀM ĐẸP BẢNG NỘI DUNG LỜI CHÚC ================= */
+            /* ================= 5. LÀM ĐẸP BẢNG LỜI CHÚC ================= */
             .swal-modal {
                 width: 88% !important;
                 max-width: 420px !important;
@@ -348,8 +369,13 @@
                     <!-- Tên -->
                     <h1 onclick="openLoveLetter()" class="avatar__title">Vũ Bảo Nhi</h1>
 
-                    <!-- Bức thư màu hồng tình yêu & trái tim ở chỗ mở thư -->
-                    <div class="love-letter-wrapper" onclick="openLoveLetter()">
+                    <!-- Dòng chữ chạy "Đợi xíu nhé :>>>>" -->
+                    <div id="marquee-container">
+                        <div class="marquee-text">Đợi xíu nhé :&gt;&gt;&gt;&gt;</div>
+                    </div>
+
+                    <!-- Bức thư màu hồng tình yêu (Hiện ra sau khi ct.mp3 phát xong) -->
+                    <div class="love-letter-wrapper" id="love-letter-box" onclick="openLoveLetter()">
                         <div class="envelope" id="love-envelope">
                             <div class="envelope-flap"></div>
                             <div class="envelope-paper">
@@ -364,13 +390,13 @@
             </div>
         </div>
 
-        <!-- 3. Hai trình phát nhạc (ct.mp3 phát 1 lần -> nghỉ 1s -> chuyển sang music.mp3) -->
+        <!-- 3. Âm thanh -->
         <audio id="audio-ct" src="./ct.mp3" preload="auto"></audio>
         <audio id="audio-music" src="./music.mp3" preload="auto" loop></audio>
 
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
-            // ================= 1. CĂN GIỮA TUYỆT ĐỐI CHO MỌI MÀN HÌNH =================
+            // ================= CĂN CHỈNH GIAO DIỆN =================
             function fitAllDevices() {
                 var balloon = document.getElementById('balloon-box');
                 var avatar = document.getElementById('avatar-box');
@@ -404,62 +430,43 @@
             window.addEventListener('load', fitAllDevices);
             window.addEventListener('resize', fitAllDevices);
 
-            // ================= 2. LOGIC PHÁT ct.mp3 1 LẦN -> ĐỢI 1 GIÂY -> PHÁT music.mp3 =================
+            // ================= TỰ ĐỘNG PHÁT NHẠC KHI ĐẾM NGƯỢC XONG =================
             var audioCt = document.getElementById("audio-ct");
             var audioMusic = document.getElementById("audio-music");
-            var currentAudio = audioCt;
-            var musicSequenceStarted = false;
-            var isWaitingNextSong = false;
 
-            // Ngay khi ct.mp3 phát xong 1 lần -> đợi 1000ms (1 giây) rồi phát music.mp3
+            // Tự động mở khóa âm thanh ngầm ngay khi trang tải xong
+            document.addEventListener("DOMContentLoaded", function() {
+                [audioCt, audioMusic].forEach(function(aud) {
+                    aud.muted = true;
+                    aud.play().then(function() {
+                        aud.pause();
+                        aud.currentTime = 0;
+                        aud.muted = false;
+                    }).catch(function(){});
+                });
+            });
+
+            // Khi ct.mp3 phát xong 1 lần -> Đợi 1 giây -> Phát music.mp3 -> Hiện bức thư
             audioCt.addEventListener("ended", function() {
-                isWaitingNextSong = true;
-                currentAudio = audioMusic;
+                var marquee = document.getElementById("marquee-container");
+                if (marquee) marquee.style.display = "none";
+
                 setTimeout(function() {
-                    isWaitingNextSong = false;
                     audioMusic.currentTime = 0;
                     audioMusic.play().catch(function(){});
+
+                    var letterBox = document.getElementById("love-letter-box");
+                    if (letterBox) {
+                        letterBox.classList.add("show-letter");
+                    }
                 }, 1000);
             });
 
-            function startMusicSequence() {
-                if (musicSequenceStarted) return;
-                currentAudio.muted = false;
-                currentAudio.play().then(function() {
-                    musicSequenceStarted = true;
-                }).catch(function() {
-                    var unlock = function() {
-                        if (!musicSequenceStarted) {
-                            currentAudio.muted = false;
-                            currentAudio.play();
-                            musicSequenceStarted = true;
-                        }
-                    };
-                    document.addEventListener("click", unlock, { once: true });
-                    document.addEventListener("touchstart", unlock, { once: true });
-                });
-            }
-
-            // ================= 3. ĐẾM NGƯỢC 5 4 3 2 1 XONG MỚI BẮT ĐẦU NHẠC =================
+            // Xử lý đếm ngược 5 4 3 2 1 tự động phát nhạc
             document.addEventListener("DOMContentLoaded", function() {
                 var introScreen = document.getElementById("intro-screen");
                 var digitEl = document.getElementById("intro-digit");
                 var count = 5;
-
-                var silentUnlock = function() {
-                    if (!musicSequenceStarted && count > 0) {
-                        [audioCt, audioMusic].forEach(function(aud) {
-                            aud.muted = true;
-                            aud.play().then(function() {
-                                aud.pause();
-                                aud.currentTime = 0;
-                                aud.muted = false;
-                            }).catch(function(){});
-                        });
-                    }
-                };
-                document.addEventListener("touchstart", silentUnlock, { once: true });
-                document.addEventListener("click", silentUnlock, { once: true });
 
                 var timer = setInterval(function() {
                     count--;
@@ -468,20 +475,30 @@
                     } else {
                         clearInterval(timer);
                         digitEl.innerText = "0";
-                        introScreen.classList.add("hidden");
-                        startMusicSequence(); // Phát ct.mp3 (1 lần) -> nghỉ 1s -> music.mp3
+                        introScreen.classList.add("hidden"); // Tắt màn hình đếm ngược
+
+                        // Hiện dòng chữ chạy
+                        var marquee = document.getElementById("marquee-container");
+                        if (marquee) marquee.style.display = "block";
+
+                        // Tự động phát ct.mp3 ngay lập tức không cần chạm màn hình
+                        audioCt.currentTime = 0;
+                        audioCt.play().catch(function() {
+                            // Phòng hờ nếu trình duyệt quá khắt khe, tự động phát ngay tại cú chạm đầu tiên bất kỳ
+                            var fallbackPlay = function() {
+                                audioCt.play();
+                                document.removeEventListener("click", fallbackPlay);
+                                document.removeEventListener("touchstart", fallbackPlay);
+                            };
+                            document.addEventListener("click", fallbackPlay);
+                            document.addEventListener("touchstart", fallbackPlay);
+                        });
                     }
                 }, 1000);
             });
 
-            // ================= 4. HIỆU ỨNG MỞ THƯ TÌNH YÊU VÀ HIỆN LỜI CHÚC =================
+            // ================= MỞ THƯ TÌNH YÊU =================
             function openLoveLetter() {
-                if ((!musicSequenceStarted || currentAudio.paused) && !isWaitingNextSong) {
-                    currentAudio.muted = false;
-                    currentAudio.play().catch(function(){});
-                    musicSequenceStarted = true;
-                }
-
                 var envelope = document.getElementById("love-envelope");
                 if (envelope) {
                     envelope.classList.add("open");
@@ -490,7 +507,7 @@
                 setTimeout(function() {
                     swal({
                         title: "💌 Gửi Vũ Bảo Nhi 💖",
-                        text: "Chúc Bảo Nhi  tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
+                        text: "Chúc Bảo Nhi tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
                         button: {
                             text: "❤️",
                         },
