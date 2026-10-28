@@ -61,7 +61,7 @@
                 overflow: hidden;
                 height: 40px;
                 z-index: 25;
-                display: none;
+                display: none; /* Chỉ hiện khi đang phát ct.mp3 */
             }
 
             .marquee-text {
@@ -148,7 +148,7 @@
                 text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
             }
 
-            /* ================= 4. BỨC THƯ MÀU HỒNG (HIỆN SAU KHI HẾT CT.MP3) ================= */
+            /* ================= 4. BỨC THƯ MÀU HỒNG (ẨN LÚC ĐẦU, CHỈ HIỆN SAU KHI XONG CT.MP3) ================= */
             .love-letter-wrapper {
                 margin-top: 15px;
                 display: flex;
@@ -374,7 +374,7 @@
                         <div class="marquee-text">Đợi xíu nhé :&gt;&gt;&gt;&gt;</div>
                     </div>
 
-                    <!-- Bức thư màu hồng tình yêu (Hiện ra sau khi ct.mp3 phát xong) -->
+                    <!-- Bức thư màu hồng tình yêu (Ẩn lúc đầu, chỉ hiện sau khi xong ct.mp3) -->
                     <div class="love-letter-wrapper" id="love-letter-box" onclick="openLoveLetter()">
                         <div class="envelope" id="love-envelope">
                             <div class="envelope-flap"></div>
@@ -430,12 +430,12 @@
             window.addEventListener('load', fitAllDevices);
             window.addEventListener('resize', fitAllDevices);
 
-            // ================= TỰ ĐỘNG PHÁT NHẠC KHI ĐẾM NGƯỢC XONG =================
+            // ================= XỬ LÝ ÂM THANH & TRÌNH TỰ =================
             var audioCt = document.getElementById("audio-ct");
             var audioMusic = document.getElementById("audio-music");
 
-            // Tự động mở khóa âm thanh ngầm ngay khi trang tải xong
-            document.addEventListener("DOMContentLoaded", function() {
+            // Kỹ thuật ép trình duyệt mở khóa âm thanh ngầm để tự phát ngay khi đếm ngược xong
+            function unlockAudioEngine() {
                 [audioCt, audioMusic].forEach(function(aud) {
                     aud.muted = true;
                     aud.play().then(function() {
@@ -444,9 +444,9 @@
                         aud.muted = false;
                     }).catch(function(){});
                 });
-            });
+            }
 
-            // Khi ct.mp3 phát xong 1 lần -> Đợi 1 giây -> Phát music.mp3 -> Hiện bức thư
+            // Khi bài ct.mp3 phát xong 1 lần -> Ẩn chữ chạy -> Đợi 1 giây -> Phát music.mp3 -> Hiện bức thư
             audioCt.addEventListener("ended", function() {
                 var marquee = document.getElementById("marquee-container");
                 if (marquee) marquee.style.display = "none";
@@ -462,11 +462,16 @@
                 }, 1000);
             });
 
-            // Xử lý đếm ngược 5 4 3 2 1 tự động phát nhạc
+            // Xử lý đếm ngược 5 4 3 2 1
             document.addEventListener("DOMContentLoaded", function() {
                 var introScreen = document.getElementById("intro-screen");
                 var digitEl = document.getElementById("intro-digit");
                 var count = 5;
+
+                // Mở khóa âm thanh ngầm ngay khi web vừa tải hoặc khi có bất kỳ cú chạm nào đầu tiên
+                unlockAudioEngine();
+                document.addEventListener("click", unlockAudioEngine, { once: true });
+                document.addEventListener("touchstart", unlockAudioEngine, { once: true });
 
                 var timer = setInterval(function() {
                     count--;
@@ -477,21 +482,22 @@
                         digitEl.innerText = "0";
                         introScreen.classList.add("hidden"); // Tắt màn hình đếm ngược
 
-                        // Hiện dòng chữ chạy
+                        // Hiển thị dòng chữ chạy "Đợi xíu nhé :>>>>"
                         var marquee = document.getElementById("marquee-container");
                         if (marquee) marquee.style.display = "block";
 
                         // Tự động phát ct.mp3 ngay lập tức không cần chạm màn hình
+                        audioCt.muted = false;
                         audioCt.currentTime = 0;
                         audioCt.play().catch(function() {
-                            // Phòng hờ nếu trình duyệt quá khắt khe, tự động phát ngay tại cú chạm đầu tiên bất kỳ
-                            var fallbackPlay = function() {
+                            // Phòng hờ nếu trình duyệt chặn hoàn toàn, tự phát ở cú chạm màn hình đầu tiên
+                            var forcePlay = function() {
                                 audioCt.play();
-                                document.removeEventListener("click", fallbackPlay);
-                                document.removeEventListener("touchstart", fallbackPlay);
+                                document.removeEventListener("click", forcePlay);
+                                document.removeEventListener("touchstart", forcePlay);
                             };
-                            document.addEventListener("click", fallbackPlay);
-                            document.addEventListener("touchstart", fallbackPlay);
+                            document.addEventListener("click", forcePlay);
+                            document.addEventListener("touchstart", forcePlay);
                         });
                     }
                 }, 1000);
@@ -507,7 +513,7 @@
                 setTimeout(function() {
                     swal({
                         title: "💌 Gửi Vũ Bảo Nhi 💖",
-                        text: "Chúc Bảo Nhi tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
+                        text: "Chúc Bảo Nhi  tuổi mới sức khỏe dồi dào, luôn xinh đẹp và gặp nhiều may mắn trong cuộc sống! ✨ Happy Birthday Bảo Nhi ! 🥳",
                         button: {
                             text: "❤️",
                         },
